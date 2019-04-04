@@ -31,7 +31,7 @@ int main()
 	using us_length = boost::units::us::foot_base_unit;
 	using namespace boost::units::si;
 	using namespace boost::units::cgs;
-	
+	using namespace boost_test;
 	
 	
 	std::cout << "Enter data points" << std::endl;
@@ -61,7 +61,7 @@ int main()
 	std::cout << std::endl << std::endl;
 
 	
-	double time[5];
+	double time = 0.0;
 
 	std::cout << "Timing for 1 million executions" << std::endl << std::endl;
 	for (int j = 0; j < 5; j++)
@@ -70,30 +70,31 @@ int main()
 		for (int i = 0; i < 1000000; i++)
 			vu.sum(vu1);
 		auto end = std::chrono::high_resolution_clock::now();
-		time[j] = std::chrono::duration<double>(end - start).count();
+		time += std::chrono::duration<double>(end - start).count();
 	}
-	std::cout << "Average running time for sum(without expression templates): " << (time[0] + time[1] + time[2] + time[3] + time[4]) / 5 * 1000 << "ms" << std::endl;
+	std::cout << "Average running time for sum(without expression templates): " << time / 5 * 1000 << "ms" << std::endl;
 
-
+	time = 0.0;
 	for (int j = 0; j < 5; j++)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
 		for (int i = 0; i < 1000000; i++)
 			vu + vu1;
 		auto end = std::chrono::high_resolution_clock::now();
-		time[j] = std::chrono::duration<double>(end - start).count();
+		time += std::chrono::duration<double>(end - start).count();
 	}
-	std::cout << "Average running time for sum(expression templates): " << (time[0] + time[1] + time[2] + time[3] + time[4]) / 5 * 1000 << "ms" << std::endl;
+	std::cout << "Average running time for sum(expression templates): " << time / 5 * 1000 << "ms" << std::endl;
 
+	time = 0.0;
 	for (int j = 0; j < 5; j++)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
 		for (int i = 0; i < 1000000; i++)
 			vu.cross(vu1);
 		auto end = std::chrono::high_resolution_clock::now();
-		time[j] = std::chrono::duration<double>(end - start).count();
+		time += std::chrono::duration<double>(end - start).count();
 	}
-	std::cout << "Average running time for crossproduct: " << (time[0] + time[1] + time[2] + time[3] + time[4]) / 5 * 1000 << "ms" << std::endl;
+	std::cout << "Average running time for crossproduct: " << time / 5 * 1000 << "ms" << std::endl;
 
 	std::cout << "=====================================================" << std::endl;
 }
