@@ -137,8 +137,7 @@ namespace boost_test
 			auto x1 = (static_cast<boost::units::quantity<U1, Type>>(y) * static_cast<boost::units::quantity<U1, Type>>(v.getz()) - static_cast<boost::units::quantity<U1, Type>>(z) * static_cast<boost::units::quantity<U1, Type>>(v.gety()));
 			auto y1 = (-(static_cast<boost::units::quantity<U2, Type>>(x) * static_cast<boost::units::quantity<U2, Type>>(v.getz()) - static_cast<boost::units::quantity<U2, Type>>(z) * static_cast<boost::units::quantity<U2, Type>>(v.getx())));
 			auto z1 = (static_cast<boost::units::quantity<U2, Type>>(x) * static_cast<boost::units::quantity<U2, Type>>(v.gety()) - static_cast<boost::units::quantity<U2, Type>>(y) * static_cast<boost::units::quantity<U2, Type>>(v.getx()));
-			vector_units  up(x1.value(), y1.value(), z1.value());
-			return up;
+			return vector_units(x1.value(), y1.value(), z1.value());
 		}
 
 		/*
