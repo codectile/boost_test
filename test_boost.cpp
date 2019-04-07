@@ -47,7 +47,7 @@ int main()
 	std::cout << "Testing sum: " << std::endl;
 	std::cout << "Result: " << sum.getx() << " " << sum.gety() << " " << sum.getz() << std::endl;
 	vector_units cross = vu.cross(vu1);
-	std::cout << "Testing cross product: " << std::endl;
+	std::cout << "Testing cross product (All values are properly converted): " << std::endl;
 	std::cout << "Result: " << cross.getx() << " " << cross.gety() << " " << cross.getz() << std::endl;
 
 	std::cout << "=====================================================" << std::endl;
