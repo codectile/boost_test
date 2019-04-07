@@ -19,10 +19,10 @@
 #include <boost/units/get_dimension.hpp>
 #include <boost/units/get_system.hpp>
 
-#include <chrono>
 #include "vector_units.hpp"
 
-
+template<typename Unit, typename Type>
+using quantity = boost::units::quantity<Unit, Type>;
 
 int main()
 {
@@ -34,67 +34,24 @@ int main()
 	using namespace boost_test;
 	
 	
-	std::cout << "Enter data points" << std::endl;
-	float data[6];
-	std::cin >> data[0] >> data[1] >> data[2] >> data[3] >> data[4] >> data[5];
+
+	vector_units<float, si_length, cgs_length, si_length> vu(1, 2, 3), vu1(4, 5, 6);
 
 
-	vector_units<float, si_length, cgs_length, us_length> vu, vu1;
-	vu.set<0>(data[0]);
-	vu.set<1>(data[1]);
-	vu.set<2>(data[2]);
-
-	vu1.set<0>(data[3]);
-	vu1.set<1>(data[4]);
-	vu1.set<2>(data[5]);
 
 	std::cout << "=====================================================" << std::endl;
 
-	vector_units sum = vu + vu1;
+	std::cout << "Vector 1: (" << vu.getx() << ", " << vu.gety() << ", " << vu.getz() << ")" << std::endl;
+	std::cout << "Vector 2: (" << vu1.getx() << ", " << vu1.gety() << ", " << vu1.getz() << ")" << std::endl;
+	vector_units sum = vu.sum(vu1);
 	std::cout << "Testing sum: " << std::endl;
-	std::cout << "Result: " << sum.get<0>() << " " << sum.get<1>() << " " << sum.get<2>() << std::endl;
+	std::cout << "Result: " << sum.getx() << " " << sum.gety() << " " << sum.getz() << std::endl;
 	vector_units cross = vu.cross(vu1);
 	std::cout << "Testing cross product: " << std::endl;
-	std::cout << "Result: " << cross.get<0>() << " " << cross.get<1>() << " " << cross.get<2>() << std::endl;
+	std::cout << "Result: " << cross.getx() << " " << cross.gety() << " " << cross.getz() << std::endl;
 
 	std::cout << "=====================================================" << std::endl;
 	std::cout << std::endl << std::endl;
 
-	
-	double time = 0.0;
-
-	std::cout << "Timing for 1 million executions" << std::endl << std::endl;
-	for (int j = 0; j < 5; j++)
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 1000000; i++)
-			vu.sum(vu1);
-		auto end = std::chrono::high_resolution_clock::now();
-		time += std::chrono::duration<double>(end - start).count();
-	}
-	std::cout << "Average running time for sum(without expression templates): " << time / 5 * 1000 << "ms" << std::endl;
-
-	time = 0.0;
-	for (int j = 0; j < 5; j++)
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 1000000; i++)
-			vu + vu1;
-		auto end = std::chrono::high_resolution_clock::now();
-		time += std::chrono::duration<double>(end - start).count();
-	}
-	std::cout << "Average running time for sum(expression templates): " << time / 5 * 1000 << "ms" << std::endl;
-
-	time = 0.0;
-	for (int j = 0; j < 5; j++)
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 1000000; i++)
-			vu.cross(vu1);
-		auto end = std::chrono::high_resolution_clock::now();
-		time += std::chrono::duration<double>(end - start).count();
-	}
-	std::cout << "Average running time for crossproduct: " << time / 5 * 1000 << "ms" << std::endl;
-
-	std::cout << "=====================================================" << std::endl;
+	return 0;
 }
